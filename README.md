@@ -1,12 +1,12 @@
-# Application Deploymnet on AWS Using Terraform
+# Application Deployment On AWS Using Terraform
 
 ## Description
 
-This project provisions a **production-ready AWS infrastructure** using Terraform. To deploy application aws with automated infra deployment.
+This project provisions a **production-ready AWS infrastructure** using Terraform. To deploy application on AWS Cloud with automated infra deployment.
 
 ## Architecture Digram
 
-![Image](./image/Arch.jpg)
+![Image](./image/application_aws_infra.jpg)
 
 ## Prerequisite To Deploy Solution
 
@@ -24,24 +24,20 @@ Ensure that **terraform** and **aws** cli is installed with respective permissio
 
 ## Deployment Steps
 
-### Manual Deployment Steps
-
 1. **Initialize Terraform:**
 ```bash
 terraform init
 ```
-2. ** Review the execution plan:**
+2. **Review the execution plan:**
 ```bash
 terraform plan
 ```
-3. ** Excecute the terraform code to create the infrstructure:**
+3. **Excecute the terraform code to create the infrastructure:**
 ```bash
 terraform apply
 ```
-### CICD Deployment Changes and Deployment Steps
 
-
-## Architecture Decisions For Solution
+## Architecture Decisions
 
 - **Multi-AZ Deployment**: Resources are deployed across two Availability Zones to ensure high availability and fault tolerance.
 
@@ -49,11 +45,11 @@ terraform apply
 
 - **Application Load Balancer (ALB)**: Used as the entry point to distribute incoming traffic across multiple EC2 instances so application stack are kept private.
 
-- **Auto Scaling Group (ASG)**: Ensures the application remains highly available and automatically adjusts capacity based on demand.
+- **Auto Scaling Group (ASG)**: Ensures the application remains highly available and automatically adjusts capacity based on demand, aslo dynamic scailing policy applied based on cpu usage.
 
-- **NAT Gateway**: Allows private instances to access the internet securely for updates without being publicly exposed.
+- **NAT Gateway**: Allows private instances to access the internet securely for updates and package installation without being publicly exposed.
 
--**Monitoring and Alerting**: Infrastructure components are monitiored and critical alarms are set for aplication ec2 isntances to prevent application disruption.
+- **Monitoring and Alerting**: Infrastructure components are monitiored and critical alarms are set to prevent application disruption.
 
 - **Terraform Modules**: Infrastructure is split into reusable modules (network, auto-scailing resources including lb, Security, monitoring and alerting) for better maintainability and scalability.
 
@@ -63,14 +59,14 @@ terraform apply
 
 Get the detailed estimated cost for deploying the solution in below link:
 
-**[AWS Pricing Calculator Link](https://calculator.aws/#/estimate?id=df1874d0611973934b272ad579ac9359409a90e1**
+**[AWS Pricing Calculator Link](https://calculator.aws/#/estimate?id=df1874d0611973934b272ad579ac9359409a90e1)**
 
 **Cosiderations**:
 - Above pricing link includes regional nate-gateway pricing by default so the actual cost of vpc nate-gateway is **41.16 USD** per month.
 - Currently Ec2 instance size and Compute saving plan is selected with 1 year no upfront commitment considering new application. Can be refactor in future as per recommendations by cost-optimization hub recommendations or as per right sizing required based on metrics data and cost-explorer pattern for atleast 6 month of data.
-- AWS Budget and alarm is setup based on estimated cost (approx 200USD) above 80% will trigger the alarm.
+- AWS Budget and alarm is setup based on estimated cost (approx 200USD) above 80% of actual spend will trigger the alarm.
 
-**Note:** the pricing is given based on mumbai region. Kindly calculate cost according to aws region
+**Note:** the pricing is given based on mumbai region. calculate cost according to deployment aws region
 
 ## Security Measures
 
@@ -103,7 +99,7 @@ Get the detailed estimated cost for deploying the solution in below link:
   - Maximum: 4 instances
   - Desired: 2 instances
 
-Note: The values above can be modified as per the requirement and workload.
+**Note:** The values above can be modified as per the requirement and workload.
 
 - **Multi-AZ Deployment**:
   - Instances are distributed across multiple Availability Zones for resilience
@@ -116,5 +112,5 @@ Note: The values above can be modified as per the requirement and workload.
 - **Load Balancing**:
   - ALB distributes incoming traffic evenly across instances
 
-This ensures the system can handle varying traffic loads while maintaining high availability.
+This solution ensures the production system can handle varying traffic loads while maintaining high availability. Also flexible to deploy different application according to infra requirements because of reusability of terraform structure.
 
