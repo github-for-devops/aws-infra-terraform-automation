@@ -1,9 +1,5 @@
 output "kms_ebs_key_id" {
-  value = aws_kms_key.ebs_kms.id
-}
-
-output "kms_s3_key_id" {
-  value = aws_kms_key.s3_kms.id
+  value = aws_kms_key.ebs_kms.arn
 }
 
 output "alb_sg" { 

@@ -1,4 +1,5 @@
 resource "aws_lb" "application_alb" {
+  name   = "application_lb"
   load_balancer_type = "application"
   subnets            = var.alb_subnets
   security_groups    = [var.alb_sg]
@@ -8,9 +9,14 @@ resource "aws_lb" "application_alb" {
     enabled = true
   }
   depends_on = [ aws_lb_target_group.ec2_tg ]
+  tags = {
+      Environment = var.environment
+      CostCenter = var.cost_center
+  }
 }
 
 resource "aws_lb_target_group" "ec2_tg" {
+  name    = "application_ec2_tg"
   vpc_id = var.vpc_id
   port   = 80
   protocol = "HTTP"
@@ -22,6 +28,10 @@ resource "aws_lb_target_group" "ec2_tg" {
     matcher             = "200"
     interval            = var.health_check_ineterval
     timeout             = var.health_check_timeout
+  }
+  tags = {
+      Environment = var.environment
+      CostCenter = var.cost_center
   }
 }
 
@@ -36,6 +46,10 @@ resource "aws_lb_listener" "https" {
     target_group_arn = aws_lb_target_group.ec2_tg.arn
   }
 #   depends_on = [ aws_lb.application_alb ]
+  tags = {
+      Environment = var.environment
+      CostCenter = var.cost_center
+  }
 }
 
 resource "aws_lb_listener" "http" {
@@ -50,14 +64,21 @@ resource "aws_lb_listener" "http" {
       status_code = "HTTP_301"
     }
   }
+  tags = {
+      Environment = var.environment
+      CostCenter = var.cost_center
+  }
 #   depends_on = [ aws_lb.application_alb ]
 }
 
 resource "aws_launch_template" "ec2_launch_template" {
+  name = "application_ec2_lt"
   image_id      = var.ami_id
   instance_type = var.instance_type
   key_name      = var.key_name 
-
+   iam_instance_profile {
+    name = "application-ec2-profile"
+  }
   metadata_options {
     http_tokens = "required"
   }
@@ -72,18 +93,23 @@ resource "aws_launch_template" "ec2_launch_template" {
     }
   }
 
-  user_data = base64encode(file(var.user_data))
+  user_data = base64encode(var.user_data)
 
   network_interfaces {
     security_groups             = [var.ec2_sg]
     associate_public_ip_address = false
   }
+  tags = {
+      Environment = var.environment
+      CostCenter = var.cost_center
+  }
 }
 
 resource "aws_autoscaling_group" "ec2_asg" {
-  min_size = 2
-  max_size = 4
-  desired_capacity = 2
+  name    = "applcaition-asg"
+  min_size = var.asg_min_size
+  max_size = var.asg_max_size
+  desired_capacity = var.asg_desired_size
 
   vpc_zone_identifier = var.private_subnets
 
@@ -93,6 +119,21 @@ resource "aws_autoscaling_group" "ec2_asg" {
   }
 
   target_group_arns = [aws_lb_target_group.ec2_tg.arn]
+  tag {
+    key                 = Name
+    value               = "${var.resource_name}-ec2"
+    propagate_at_launch = true
+  }
+  tag {
+    key                 = Environment
+    value               = var.environment
+    propagate_at_launch = true
+  }
+  tag {
+    key                 = CostCenter
+    value               = var.cost_center
+    propagate_at_launch = true
+  }
   depends_on = [ aws_lb_target_group.ec2_tg, aws_launch_template.ec2_launch_template ]
 }
 

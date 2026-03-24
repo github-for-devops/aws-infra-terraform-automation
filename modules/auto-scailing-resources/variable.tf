@@ -1,7 +1,3 @@
-variable "alb_subnets" {
-  type = set(string)
-  description = "public subnet ids for ALB"
-}
 
 variable "alb_sg" {
   type = string
@@ -25,13 +21,11 @@ variable "app_healthcheck_path" {
 variable "health_check_ineterval" {
   type = number
   description = "interval in sec for ALB healthcheck"
-  default = 30
 }
 
 variable "health_check_timeout" {
   type = number
   description = "timeout in sec for ALB healthcheck"
-  default = 5
 }
 
 variable "cert_arn" {
@@ -40,13 +34,15 @@ variable "cert_arn" {
 
 variable "key_name" {
   description = "EC2 Key Pair"
-  default     = null
 }
 
 variable "ami_id" {
   type = string
   description = "ec2 ami id"
-  default = ""
+}
+
+variable "user_data" {
+  type = string
 }
 
 variable "instance_type" {
@@ -55,25 +51,46 @@ variable "instance_type" {
   default = "t3.medium"
 }
 
-variable "user_data" {
-  type = string
-  description = "ec2 user data script"
-}
-
 variable "kms_ebs_key_id" {
   type = string
 }
 
 variable "ebs_volume_size" {
   type = number
-  default = 8
 }
 
 variable "ec2_sg" {
   type = string
 }
 
+variable "alb_subnets" {
+  type = set(string)
+}
+
 variable "private_subnets" {
   type = set(string)
-  description = "private subnets ids"
+}
+
+variable "asg_min_size" {
+  type = number
+}
+
+variable "asg_max_size" {
+  type = number
+}
+
+variable "asg_desired_size" {
+  type = number
+}
+
+variable "resource_name" {
+  type = string
+}
+
+variable "environment" {
+  type = string
+}
+
+variable "cost_center" {
+  type = string
 }
