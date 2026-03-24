@@ -92,7 +92,7 @@ Get the detailed estimated cost for deploying the solution in below link:
 - **No SSH Access**:
   - AWS SSM is used for secure instance access
 
-  ## Scaling Strategy
+## Scaling Strategy
 
 - **Auto Scaling Group (ASG)**:
   - Minimum: 2 instances
