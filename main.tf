@@ -38,7 +38,7 @@ module "auto-scailing-resources" {
     cert_arn = module.security-resources.cert_arn
     key_name = var.key_name
     ami_id = var.ami_id
-    user_data = file("${path.module}/user-data.sh")
+    user_data = file("${path.module}/userdata.sh")
     instance_type = var.instance_type
     kms_ebs_key_id = module.security-resources.kms_ebs_key_id
     ebs_volume_size = var.ebs_volume_size
@@ -54,7 +54,7 @@ module "auto-scailing-resources" {
 # "monitoring-resources" module cloudwatch-alarms, sns, budget-alarm, configuration
 
 module "monitoring-resources" {
-    source = "./modules/observability-resources"
+    source = "./modules/monitoring-resources"
     alert_email = var.alert_email
     target_group_arn_suffix = module.auto-scailing-resources.tg_arn_suffix
     load_balancer_arn_suffix = module.auto-scailing-resources.lb_arn_suffix

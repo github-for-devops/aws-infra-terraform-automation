@@ -1,5 +1,5 @@
 resource "aws_lb" "application_alb" {
-  name   = "application_lb"
+  name   = "application-lb"
   load_balancer_type = "application"
   subnets            = var.alb_subnets
   security_groups    = [var.alb_sg]
@@ -16,7 +16,7 @@ resource "aws_lb" "application_alb" {
 }
 
 resource "aws_lb_target_group" "ec2_tg" {
-  name    = "application_ec2_tg"
+  name    = "application-ec2-tg"
   vpc_id = var.vpc_id
   port   = 80
   protocol = "HTTP"
@@ -72,7 +72,7 @@ resource "aws_lb_listener" "http" {
 }
 
 resource "aws_launch_template" "ec2_launch_template" {
-  name = "application_ec2_lt"
+  name = "application-ec2-lt"
   image_id      = var.ami_id
   instance_type = var.instance_type
   key_name      = var.key_name 
@@ -121,17 +121,17 @@ resource "aws_autoscaling_group" "ec2_asg" {
 
   target_group_arns = [aws_lb_target_group.ec2_tg.arn]
   tag {
-    key                 = Name
+    key                 = "Name"
     value               = "${var.resource_name}-ec2"
     propagate_at_launch = true
   }
   tag {
-    key                 = Environment
+    key                 = "Environment"
     value               = var.environment
     propagate_at_launch = true
   }
   tag {
-    key                 = CostCenter
+    key                 = "CostCenter"
     value               = var.cost_center
     propagate_at_launch = true
   }
