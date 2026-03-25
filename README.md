@@ -94,7 +94,7 @@ terraform apply
 
 Get the detailed estimated cost for deploying the solution in below link:
 
-**[AWS Pricing Calculator Link](https://calculator.aws/#/estimate?id=df8cc8333290de148b44238878d55f6397336431)**
+**[AWS Pricing Calculator Link](https://calculator.aws/#/estimate?id=a666313e6d48e99cc23d82b72d807f0b3d9d3b6f)**
 
 **Cosiderations**:
 - Currently Ec2 instance size and Compute saving plan is selected with 1 year no upfront commitment considering new application. Can be refactor in future as per recommendations by cost-optimization hub recommendations or as per right sizing required based on metrics data and cost-explorer pattern for atleast 6 month of data.
