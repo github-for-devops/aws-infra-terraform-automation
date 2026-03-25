@@ -29,17 +29,17 @@ Ensure that **terraform** and **aws** cli is installed with respective permissio
 - Ensure to create an s3 bucket to store the state file remotely in the respective region based on requirement.
 - Ensure to make the necessary changes within the [backend.tf](./backend.tf) file based on the bucket created in the above step.
 
-##Inputs
+## Inputs
 
 - Below are the input required from user to set the vaules according to deployment requirement. It can be implemented using **.tfvar** file before deployment step.
 
-- [userdata.sh] can be change to install required packages according to application requirement
+- [userdata.sh](./userdata.sh) can be change to install required packages according to application requirement
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+|------|-------------|------|-------|:--------:|
 | <a name="region"></a> [region](#region) | AWS Region for infra deployment | `string` | `"ap-south-1"` | no |
 | <a name="vpc_cidr"></a> [vpc_cidr](#vpc_cidr) | vpc cidr | `string` | `"10.0.0.0/16"` | no |
-| <a name="azs"></a> [azs](#azs) | avaulability zones for subnets | `list(string)` | <pre>[<br> "ap-south-1a", "ap-south-1b" <br>]</pre> | no |
+| <a name="azs"></a> [azs](#azs) | availability zones for subnets | `list(string)` | <pre>[<br> "ap-south-1a", "ap-south-1b" <br>]</pre> | no |
 | <a name="access_log_bucket_name"></a> [access_log_bucket_name](#access_log_bucket_name) | ALB Access log Bucket Name | `string` | `""` | yes |
 | <a name="kms_deletion_window_in_days"></a> [kms_deletion_window_in_days](#kms_deletion_window_in_days) | number of day to keep kms key before deletion | `number` | `7` | no |
 | <a name="domain_name"></a> [domain_name](#domain_name) | valid domain name for application | `string` | `""` | yes |
@@ -51,7 +51,7 @@ Ensure that **terraform** and **aws** cli is installed with respective permissio
 | <a name="ebs_volume_size"></a> [ebs_volume_size](#ebs_volume_size) | ebs volume size in GB | `string` | `8` | no |
 | <a name="asg_min_size"></a> [asg_min_size](#asg_min_size) | min value of ec2 to be running | `string` | `2` | no |
 | <a name="asg_max_size"></a> [asg_max_size](#asg_max_size) | max value of ec2 to be running | `string` | `4` | no |
-| <a name="asg_desired_size"></a> [asg_desired_size](#asg_desired_size) | desied value of ec2 to be running | `string` | `2` | no |
+| <a name="asg_desired_size"></a> [asg_desired_size](#asg_desired_size) | desired value of ec2 to be running | `string` | `2` | no |
 | <a name="alert_email"></a> [alert_email](#alert_email) | email for alert notification | `string` | `""` | yes |
 | <a name="resource_name"></a> [resource_name](#resource_name) | tag value for resource name | `string` | `"prodapp"` | no |
 | <a name="environment"></a> [environment](#environment) | tag value for environment | `string` | `"prod"` | no |
