@@ -75,7 +75,7 @@ resource "aws_cloudwatch_metric_alarm" "unhealthy_targets" {
 resource "aws_budgets_budget" "monthly_budget" {
   name         = "monthly-budget"
   budget_type  = "COST"
-  limit_amount = "200"
+  limit_amount = "150"
   limit_unit   = "USD"
   time_unit    = "MONTHLY"
 

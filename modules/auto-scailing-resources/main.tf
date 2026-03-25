@@ -90,6 +90,7 @@ resource "aws_launch_template" "ec2_launch_template" {
       encrypted  = true
       kms_key_id = var.kms_ebs_key_id
       volume_size = var.ebs_volume_size
+      volume_type = "gp2"
     }
   }
 
